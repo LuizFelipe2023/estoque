@@ -86,6 +86,15 @@ const userController = {
             console.error("Erro ao redefinir a senha:", error);
             return res.status(500).json({ error: "Erro ao redefinir a senha." });
         }
+    },
+    async getAllUsers(req,res){
+          try{
+            const users = await User.findAll();
+            res.status(200).json(users);
+          }catch(err){
+            console.error("Erro ao buscar os usuários",err);
+            return res.status(500).json({error:"Erro ao buscar os usuários"});
+          }
     }
 };
 
