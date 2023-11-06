@@ -1,4 +1,5 @@
 import User from '../models/user.js'; 
+import authController from './authController.js';
 import bcrypt from 'bcryptjs'; 
 
 const userController = {
@@ -88,13 +89,33 @@ const userController = {
         }
     },
     async getAllUsers(req,res){
-          try{
-            const users = await User.findAll();
-            res.status(200).json(users);
-          }catch(err){
+        try{
+            await authController.verifyToken(req, res, () => {
+                const users = await User.findAll({attributes:{exclude:['password']}});
+                res.status(200).json(users);
+            });
+        }catch(err){
             console.error("Erro ao buscar os usuários",err);
             return res.status(500).json({error:"Erro ao buscar os usuários"});
-          }
+        }
+    },
+
+    async getUserById(req, res) {
+        try {
+            await authController.verifyToken(req, res, async () => {
+                const { userId } = req.params;
+                const user = await User.findByPk(userId, { attributes: { exclude: ['password'] } });
+
+                if (!user) {
+                    return res.status(404).json({ error: 'Usuário não encontrado.' });
+                }
+
+                return res.status(200).json(user);
+            });
+        } catch (error) {
+            console.error('Erro ao buscar usuário:', error);
+            return res.status(500).json({ error: 'Erro ao buscar usuário.' });
+        }
     }
 };
 
