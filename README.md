@@ -21,7 +21,7 @@ Este projeto é uma aplicação para gerenciar um estoque de produtos. Ele inclu
 
     Configuração do Banco de Dados:
 
-    Certifique-se de configurar corretamente as credenciais do banco de dados no arquivo config.js.
+    Certifique-se de configurar corretamente as credenciais do banco de dados no arquivo db.js.
 
     Configuração do Ambiente:
 
