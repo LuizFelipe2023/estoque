@@ -1,5 +1,4 @@
-# estoque
-markdown
+
 
 # Projeto de Estoque
 
